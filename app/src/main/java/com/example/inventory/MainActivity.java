@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 String name = listItemName.getText().toString();
                 Intent intent = new Intent(that, EditItemActivity.class);
                 intent.putExtra("name", name);
-                intent.putExtra("index", index);
+                intent.putExtra("index", Integer.toString(index));
                 startActivityForResult(intent,2);
 
             }
@@ -89,9 +89,12 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 String indexText = data.getStringExtra("index");
                 Integer index = Integer.parseInt(indexText);
+                System.out.println("ERROR CATCHING");
+                System.out.println(index);
                 ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
-                inventory.remove(index);
+                inventory.remove(index.intValue());
                 SaveArrayListToSD(this, "inventoryList", inventory);
+                System.out.println(inventory.size());
                 InventoryAdapter inventoryAdapter = new InventoryAdapter(inventory, this);
 
                 ListView listView = (ListView) findViewById(R.id.listView);

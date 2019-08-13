@@ -22,11 +22,13 @@ public class EditItemActivity extends AppCompatActivity {
         TextView nameView = (TextView) findViewById(R.id.material);
         nameView.setText(name);
 
-        Button deleteButton = (Button) findViewById(R.id.add);
+        Button deleteButton = (Button) findViewById(R.id.delete_button);
         deleteButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 Intent intent = new Intent();
                 intent.putExtra("index",index);
+                System.out.println("ERROR CATCHING");
+                System.out.println(index);
                 setResult(RESULT_OK,intent);
                 finish();
 
