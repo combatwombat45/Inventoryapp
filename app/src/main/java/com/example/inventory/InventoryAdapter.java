@@ -48,7 +48,12 @@ public class InventoryAdapter extends BaseAdapter implements ListAdapter {
 
         //Handle TextView and display string from your list
         TextView listItemName = (TextView)view.findViewById(R.id.list_item_name);
-        listItemName.setText(list.get(position).name);
+        TextView listItemCount = (TextView)view.findViewById(R.id.list_item_count);
+        System.out.println("jewzinthahood");
+        System.out.println(list.get(position).getName());
+        System.out.println(Integer.toString(list.get(position).getCount()));
+        listItemName.setText(list.get(position).getName());
+        listItemCount.setText(Integer.toString(list.get(position).getCount()));
 
         //Handle buttons and add onClickListeners
 //        Button deleteBtn = (Button)view.findViewById(R.id.delete_btn);

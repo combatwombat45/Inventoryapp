@@ -1,6 +1,8 @@
 package com.example.inventory;
 
-public class InventoryObject {
+import java.io.Serializable;
+
+public class InventoryObject implements Serializable {
 
     Integer count;
     String name;
