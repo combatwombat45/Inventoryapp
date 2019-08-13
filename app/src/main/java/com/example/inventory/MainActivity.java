@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,19 +29,28 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.listView);
 
         ArrayList<InventoryObject> inventory = new ArrayList<InventoryObject>();
-        InventoryObject item = new InventoryObject("Single Pole Switch", 500);
+
+        InventoryObject item = new InventoryObject("Single Pole Switch", 500,"");
         inventory.add(item);
         SaveArrayListToSD(this, "inventoryList", inventory);
-
-
-
-        ArrayList<InventoryObject> readInventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
-
-
-
-        InventoryAdapter inventoryAdapter = new InventoryAdapter(readInventory, this);
-
+        InventoryAdapter inventoryAdapter = new InventoryAdapter(inventory, this);
         listView.setAdapter(inventoryAdapter);
+
+
+        final Context that = this;
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
+                TextView listItemName = (TextView)view.findViewById(R.id.list_item_name);
+                TextView listItemCount = (TextView)view.findViewById(R.id.list_item_count);
+                String name = listItemName.getText().toString();
+                Intent intent = new Intent(that, EditItemActivity.class);
+                intent.putExtra("name", name);
+                intent.putExtra("index", index);
+                startActivityForResult(intent,2);
+
+            }
+        });
     }
 
     public void OpenAddItemDialog(View view){
@@ -56,18 +67,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+//        1 = additem, 2 = deleteitem
         if (requestCode == 1) {
-            if(resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 String name = data.getStringExtra("name");
                 String countText = data.getStringExtra("count");
-                System.out.println("ERROR CATCH");
-                System.out.println(name);
-                System.out.println(countText);
                 Integer count = Integer.parseInt(countText);
-                ArrayList<InventoryObject> inventory;
-                inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
-                System.out.print(Arrays.toString(inventory.toArray()));
-                InventoryObject item = new InventoryObject(name, count);
+                String unit = data.getStringExtra("unit");
+                ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
+                InventoryObject item = new InventoryObject(name, count, unit);
                 inventory.add(item);
                 SaveArrayListToSD(this, "inventoryList", inventory);
                 InventoryAdapter inventoryAdapter = new InventoryAdapter(inventory, this);
@@ -76,6 +84,18 @@ public class MainActivity extends AppCompatActivity {
                 listView.setAdapter(inventoryAdapter);
             } else {
                 System.out.println("FAILED TO GET PARAMETER");
+            }
+        } else if (requestCode == 2){
+            if (resultCode == RESULT_OK) {
+                String indexText = data.getStringExtra("index");
+                Integer index = Integer.parseInt(indexText);
+                ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
+                inventory.remove(index);
+                SaveArrayListToSD(this, "inventoryList", inventory);
+                InventoryAdapter inventoryAdapter = new InventoryAdapter(inventory, this);
+
+                ListView listView = (ListView) findViewById(R.id.listView);
+                listView.setAdapter(inventoryAdapter);
             }
         }
     }

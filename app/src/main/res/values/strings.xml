@@ -5,4 +5,14 @@
     <string name="material_name">Material Name</string>
     <string name="material_count">Count</string>
     <string name="cancel_button">Cancel</string>
+    <string name="update_button">Update</string>
+    <string name="delete_button">Delete</string>
+
+    <string-array name="unit_types">\
+        <!-- the first item is the default choice; leave item below as first item -->
+        <item></item>
+        <item>ft</item>
+        <item>units</item>
+    </string-array>
+
 </resources>

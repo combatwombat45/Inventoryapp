@@ -6,11 +6,14 @@ public class InventoryObject implements Serializable {
 
     Integer count;
     String name;
+    String unit;
 
-    public InventoryObject(String n, Integer c){
+
+    public InventoryObject(String n, Integer c, String u){
         System.out.println("Passed name is :" + n );
         name = n;
         count = c;
+        unit = u;
     }
 
     public void incrementCount() {
@@ -28,4 +31,6 @@ public class InventoryObject implements Serializable {
     public String getName() {
         return name;
     }
+
+    public String getUnit() { return unit; }
 }
