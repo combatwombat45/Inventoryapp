@@ -10,7 +10,6 @@ public class InventoryObject implements Serializable {
 
 
     public InventoryObject(String n, Integer c, String u){
-        System.out.println("Passed name is :" + n );
         name = n;
         count = c;
         unit = u;
@@ -33,4 +32,15 @@ public class InventoryObject implements Serializable {
     }
 
     public String getUnit() { return unit; }
+
+    public void setCount(Integer c) {
+        count = c;
+    }
+
+    public void setName(String n) {
+        name = n;
+    }
+
+    public void setUnit(String u) {
+        unit = u; }
 }

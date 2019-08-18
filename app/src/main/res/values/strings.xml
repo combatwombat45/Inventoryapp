@@ -12,7 +12,6 @@
         <!-- the first item is the default choice; leave item below as first item -->
         <item></item>
         <item>ft</item>
-        <item>units</item>
     </string-array>
 
 </resources>

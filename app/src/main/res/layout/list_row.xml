@@ -1,26 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<com.google.android.flexbox.FlexboxLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:alignContent="flex_start"
+    app:alignItems="flex_start"
+    app:flexWrap="nowrap"
+    app:showDivider="middle" >
 
     <TextView
         android:id="@+id/list_item_name"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:ellipsize="end"
         android:paddingLeft="8dp"
+        android:textColor="@android:color/background_dark"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/list_item_count"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="250dp"
+        android:layout_alignParentLeft="false"
+        android:ellipsize="end"
         android:paddingLeft="8dp"
+        android:textColor="@android:color/background_dark"
         android:textSize="18sp"
         android:textStyle="bold" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/list_item_unit"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:ellipsize="end"
+        android:paddingLeft="8dp"
+        android:textColor="@android:color/background_dark"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+</com.google.android.flexbox.FlexboxLayout>

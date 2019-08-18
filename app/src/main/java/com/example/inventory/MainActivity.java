@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
+    static String ACTION_DELETE = "delete";
+    static String ACTION_UPDATE = "update";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +45,17 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
                 TextView listItemName = (TextView)view.findViewById(R.id.list_item_name);
                 TextView listItemCount = (TextView)view.findViewById(R.id.list_item_count);
+                TextView listItemUnit = (TextView)view.findViewById(R.id.list_item_unit);
                 String name = listItemName.getText().toString();
+                String unit = listItemUnit.getText().toString();
+                String count = listItemCount.getText().toString();
                 Intent intent = new Intent(that, EditItemActivity.class);
                 intent.putExtra("name", name);
                 intent.putExtra("index", Integer.toString(index));
+                intent.putExtra("unit", unit);
+                intent.putExtra("count", count);
+
+
                 startActivityForResult(intent,2);
 
             }
@@ -83,22 +92,43 @@ public class MainActivity extends AppCompatActivity {
                 ListView listView = (ListView) findViewById(R.id.listView);
                 listView.setAdapter(inventoryAdapter);
             } else {
-                System.out.println("FAILED TO GET PARAMETER");
             }
         } else if (requestCode == 2){
-            if (resultCode == RESULT_OK) {
-                String indexText = data.getStringExtra("index");
-                Integer index = Integer.parseInt(indexText);
-                System.out.println("ERROR CATCHING");
-                System.out.println(index);
-                ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
-                inventory.remove(index.intValue());
-                SaveArrayListToSD(this, "inventoryList", inventory);
-                System.out.println(inventory.size());
-                InventoryAdapter inventoryAdapter = new InventoryAdapter(inventory, this);
 
-                ListView listView = (ListView) findViewById(R.id.listView);
-                listView.setAdapter(inventoryAdapter);
+
+            if (resultCode == RESULT_OK) {
+                String action = data.getStringExtra("action");
+                if (action.equals(ACTION_DELETE)) {
+                    String indexText = data.getStringExtra("index");
+                    Integer index = Integer.parseInt(indexText);
+                    ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
+                    inventory.remove(index.intValue());
+                    SaveArrayListToSD(this, "inventoryList", inventory);
+                    InventoryAdapter inventoryAdapter = new InventoryAdapter(inventory, this);
+
+                    ListView listView = (ListView) findViewById(R.id.listView);
+                    listView.setAdapter(inventoryAdapter);
+                } else if (action.equals(ACTION_UPDATE)) {
+                    String indexText = data.getStringExtra("index");
+                    String countText = data.getStringExtra("count");
+                    Integer count = Integer.parseInt(countText);
+                    String unit = data.getStringExtra("unit");
+                    String material = data.getStringExtra("name");
+                    Integer index = Integer.parseInt(indexText);
+                    ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
+                    InventoryObject inventoryObject = inventory.get(index.intValue());
+                    inventoryObject.setName(material);
+                    inventoryObject.setCount(count);
+                    inventoryObject.setUnit(unit);
+                    inventory.set(index,inventoryObject);
+
+                    SaveArrayListToSD(this, "inventoryList", inventory);
+                    InventoryAdapter inventoryAdapter = new InventoryAdapter(inventory, this);
+
+                    ListView listView = (ListView) findViewById(R.id.listView);
+                    listView.setAdapter(inventoryAdapter);
+                } else {
+                }
             }
         }
     }
