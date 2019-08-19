@@ -30,11 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ListView listView = (ListView) findViewById(R.id.listView);
 
-        ArrayList<InventoryObject> inventory = new ArrayList<InventoryObject>();
-
-        InventoryObject item = new InventoryObject("Single Pole Switch", 500,"");
-        inventory.add(item);
-        SaveArrayListToSD(this, "inventoryList", inventory);
+        ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
         InventoryAdapter inventoryAdapter = new InventoryAdapter(inventory, this);
         listView.setAdapter(inventoryAdapter);
 
@@ -139,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
             FileOutputStream fos = mContext.openFileOutput(filename + ".dat", mContext.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(list);
+            oos.close();
             fos.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -150,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
             ObjectInputStream ois = new ObjectInputStream(fis);
             Object obj= (Object) ois.readObject();
             fis.close();
+            ois.close();
             return obj;
         } catch (Exception e) {
             e.printStackTrace();
