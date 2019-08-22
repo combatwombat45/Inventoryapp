@@ -9,8 +9,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.android.flexbox.FlexboxLayout;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -61,13 +64,6 @@ public class MainActivity extends AppCompatActivity {
     public void OpenAddItemDialog(View view){
         Intent intent = new Intent(this, OpenAddItemDialogActivity.class);
         startActivityForResult(intent,1);
-    }
-
-    public void AddItem(View view) {
-        EditText text = findViewById(R.id.material);
-        String material = text.getText().toString();
-        EditText countText = findViewById(R.id.count);
-        Number count = Integer.parseInt(countText.getText().toString());
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -125,6 +121,46 @@ public class MainActivity extends AppCompatActivity {
                     listView.setAdapter(inventoryAdapter);
                 } else {
                 }
+            }
+        }
+    }
+
+    public void subtractFromCount(View view) {
+        ImageView subtract = (ImageView) view;
+        com.google.android.flexbox.FlexboxLayout row = (com.google.android.flexbox.FlexboxLayout) subtract.getParent();
+        TextView nameView = (TextView) row.getChildAt(0);
+        ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
+
+        int inventoryIndex = 0;
+        for (int i=0;i<inventory.size();i++) {
+            InventoryObject inventoryObject = (InventoryObject) inventory.get(i);
+            if (inventoryObject.getName().equals(nameView.getText().toString())) {
+                inventoryObject.decrementCount();
+                inventory.set(i, inventoryObject);
+                SaveArrayListToSD(this, "inventoryList", inventory);
+                InventoryAdapter inventoryAdapter = new InventoryAdapter(inventory, this);
+                ListView listView = (ListView) findViewById(R.id.listView);
+                listView.setAdapter(inventoryAdapter);
+            }
+        }
+    }
+
+    public void addFromCount(View view) {
+        ImageView subtract = (ImageView) view;
+        com.google.android.flexbox.FlexboxLayout row = (com.google.android.flexbox.FlexboxLayout) subtract.getParent();
+        TextView nameView = (TextView) row.getChildAt(0);
+        ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
+
+        int inventoryIndex = 0;
+        for (int i=0;i<inventory.size();i++) {
+            InventoryObject inventoryObject = (InventoryObject) inventory.get(i);
+            if (inventoryObject.getName().equals(nameView.getText().toString())) {
+                inventoryObject.incrementCount();
+                inventory.set(i, inventoryObject);
+                SaveArrayListToSD(this, "inventoryList", inventory);
+                InventoryAdapter inventoryAdapter = new InventoryAdapter(inventory, this);
+                ListView listView = (ListView) findViewById(R.id.listView);
+                listView.setAdapter(inventoryAdapter);
             }
         }
     }
