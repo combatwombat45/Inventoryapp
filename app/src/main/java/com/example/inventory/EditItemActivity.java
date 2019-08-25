@@ -18,10 +18,11 @@ public class EditItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
 
-        String name = getIntent().getStringExtra("name");
+        final String name = getIntent().getStringExtra("name");
         final String index = getIntent().getStringExtra("index");
         String count = getIntent().getStringExtra("count");
         String unit = getIntent().getStringExtra("unit");
+        final String id = getIntent().getStringExtra("id");
 
         TextView nameView = (TextView) findViewById(R.id.material);
         TextView countView = (TextView) findViewById(R.id.count);
@@ -48,7 +49,7 @@ public class EditItemActivity extends AppCompatActivity {
             public void onClick(View view){
                 Intent intent = new Intent();
                 Bundle extras = new Bundle();
-                extras.putString("index",index);
+                extras.putString("id",id);
                 extras.putString("action","delete");
                 intent.putExtras(extras);
                 setResult(RESULT_OK,intent);
@@ -73,15 +74,10 @@ public class EditItemActivity extends AppCompatActivity {
                 extras.putString("name",material);
                 extras.putString("count",count);
                 extras.putString("unit",unit);
+                extras.putString("id", id);
                 intent.putExtras(extras);
                 setResult(RESULT_OK,intent);
                 finish();
-
-//                Bundle extras = new Bundle();
-//                extras.putString("name",material);
-//                extras.putString("count",count);
-//                extras.putString("unit",unit);
-//                intent.putExtras(extras);
             }
         });
     }

@@ -47,12 +47,14 @@ public class InventoryAdapter extends BaseAdapter implements ListAdapter {
         }
 
         //Handle TextView and display string from your list
+        TextView listItemID = (TextView)view.findViewById(R.id.list_item_id);
         TextView listItemName = (TextView)view.findViewById(R.id.list_item_name);
         TextView listItemCount = (TextView)view.findViewById(R.id.list_item_count);
         TextView listItemUnit = (TextView)view.findViewById(R.id.list_item_unit);
 
         String unit = list.get(position).getUnit();
         listItemName.setText(list.get(position).getName());
+        listItemID.setText(list.get(position).getID());
         listItemCount.setText(Integer.toString(list.get(position).getCount()));
         listItemUnit.setText(unit);
 
