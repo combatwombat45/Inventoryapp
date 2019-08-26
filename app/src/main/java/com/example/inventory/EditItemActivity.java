@@ -19,7 +19,6 @@ public class EditItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_item);
 
         final String name = getIntent().getStringExtra("name");
-        final String index = getIntent().getStringExtra("index");
         String count = getIntent().getStringExtra("count");
         String unit = getIntent().getStringExtra("unit");
         final String id = getIntent().getStringExtra("id");
@@ -69,7 +68,6 @@ public class EditItemActivity extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 Bundle extras = new Bundle();
-                extras.putString("index",index);
                 extras.putString("action","update");
                 extras.putString("name",material);
                 extras.putString("count",count);

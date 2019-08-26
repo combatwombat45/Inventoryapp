@@ -44,40 +44,26 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         handleIntent(getIntent());
 
-        ListView listView = (ListView) findViewById(R.id.listView);
-
+//        Code to manually reset current inventory
 //        ArrayList<InventoryObject> inventory = new ArrayList<InventoryObject>();
 //        SaveArrayListToSD(this, "currentInventoryList", inventory);
 //        SaveArrayListToSD(this, "inventoryList", inventory);
 
-        ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "currentInventoryList");
-        InventoryAdapter inventoryAdapter = new InventoryAdapter(inventory, this);
+        ListView listView = (ListView) findViewById(R.id.listView);
+        ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
+        ArrayList<InventoryObject> currentInventory = (ArrayList) ReadArrayListFromSD(this, "currentInventoryList");
+        InventoryAdapter inventoryAdapter = new InventoryAdapter(currentInventory, this);
         listView.setAdapter(inventoryAdapter);
 
-
-        final Context that = this;
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
-                TextView listItemName = (TextView)view.findViewById(R.id.list_item_name);
-                TextView listItemCount = (TextView)view.findViewById(R.id.list_item_count);
-                TextView listItemUnit = (TextView)view.findViewById(R.id.list_item_unit);
-                TextView listItemID = (TextView)view.findViewById(R.id.list_item_id);
-                String name = listItemName.getText().toString();
-                String unit = listItemUnit.getText().toString();
-                String count = listItemCount.getText().toString();
-                String id = listItemID.getText().toString();
-                Intent intent = new Intent(that, EditItemActivity.class);
-                intent.putExtra("name", name);
-                intent.putExtra("index", Integer.toString(index));
-                intent.putExtra("unit", unit);
-                intent.putExtra("count", count);
-                intent.putExtra("id", id);
-
-                startActivityForResult(intent,2);
-
-            }
-        });
+        TextView titleView = (TextView) findViewById(R.id.inventoryTitle);
+        ImageView backView = (ImageView) findViewById(R.id.back);
+        if (inventory.size() != currentInventory.size()){
+            titleView.setVisibility(View.GONE);
+            backView.setVisibility(View.VISIBLE);
+        } else {
+            titleView.setVisibility(View.VISIBLE);
+            backView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -159,12 +145,10 @@ public class MainActivity extends AppCompatActivity {
                     ListView listView = (ListView) findViewById(R.id.listView);
                     listView.setAdapter(inventoryAdapter);
                 } else if (action.equals(ACTION_UPDATE)) {
-                    String indexText = data.getStringExtra("index");
                     String countText = data.getStringExtra("count");
                     Integer count = Integer.parseInt(countText);
                     String unit = data.getStringExtra("unit");
                     String material = data.getStringExtra("name");
-                    Integer index = Integer.parseInt(indexText);
                     String id = data.getStringExtra("id");
                     ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
                     ArrayList<InventoryObject> currentInventory = (ArrayList) ReadArrayListFromSD(this, "currentInventoryList");
@@ -209,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
         ArrayList<InventoryObject> currentInventory = (ArrayList) ReadArrayListFromSD(this, "currentInventoryList");
 
-        int inventoryIndex = 0;
         for (int i=0;i<inventory.size();i++) {
             InventoryObject inventoryObject = (InventoryObject) inventory.get(i);
             if (inventoryObject.getID().equals(idView.getText().toString())) {
@@ -240,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
         ArrayList<InventoryObject> currentInventory = (ArrayList) ReadArrayListFromSD(this, "currentInventoryList");
 
-        int inventoryIndex = 0;
         for (int i=0;i<inventory.size();i++) {
             InventoryObject inventoryObject = (InventoryObject) inventory.get(i);
             if (inventoryObject.getID().equals(idView.getText().toString())) {
@@ -262,6 +244,29 @@ public class MainActivity extends AppCompatActivity {
         InventoryAdapter inventoryAdapter = new InventoryAdapter(currentInventory, this);
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(inventoryAdapter);
+    }
+
+    public void editItem(View view){
+        TextView nameView = (TextView) view;
+        com.google.android.flexbox.FlexboxLayout row = (com.google.android.flexbox.FlexboxLayout) nameView.getParent();
+        TextView idView = (TextView) row.getChildAt(0);
+        TextView countView = (TextView) row.getChildAt(3);
+        TextView unitView = (TextView) row.getChildAt(4);
+        ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
+        ArrayList<InventoryObject> currentInventory = (ArrayList) ReadArrayListFromSD(this, "currentInventoryList");
+
+        String name = nameView.getText().toString();
+        String unit = unitView.getText().toString();
+        String count = countView.getText().toString();
+        String id = idView.getText().toString();
+        Intent intent = new Intent(this, EditItemActivity.class);
+
+        intent.putExtra("name", name);
+        intent.putExtra("unit", unit);
+        intent.putExtra("count", count);
+        intent.putExtra("id", id);
+
+        startActivityForResult(intent,2);
     }
 
     // Menu icons are inflated just as they were with actionbar
@@ -311,6 +316,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        clearSearch();
+    }
+
+    public void onBackPressed(View view) {
+        clearSearch();
+    }
+
+    public void clearSearch() {
         ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
         SaveArrayListToSD(this, "inventoryList", inventory);
         SaveArrayListToSD(this, "currentInventoryList", inventory);
@@ -318,7 +331,16 @@ public class MainActivity extends AppCompatActivity {
         InventoryAdapter inventoryAdapter = new InventoryAdapter(currentInventory, this);
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(inventoryAdapter);
-    }
 
+        TextView titleView = (TextView) findViewById(R.id.inventoryTitle);
+        ImageView backView = (ImageView) findViewById(R.id.back);
+        if (inventory.size() != currentInventory.size()){
+            titleView.setVisibility(View.GONE);
+            backView.setVisibility(View.VISIBLE);
+        } else {
+            titleView.setVisibility(View.VISIBLE);
+            backView.setVisibility(View.GONE);
+        }
+    }
 }
 
