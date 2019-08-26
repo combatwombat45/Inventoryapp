@@ -36,7 +36,6 @@
 
     <Button
         android:id="@+id/addButton"
-        style="@style/Widget.AppCompat.Button"
         android:layout_width="147dp"
         android:layout_height="47dp"
         android:layout_marginTop="8dp"

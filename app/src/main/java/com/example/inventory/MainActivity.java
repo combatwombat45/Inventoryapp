@@ -310,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void () {
+    public void onBackPressed() {
         ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
         SaveArrayListToSD(this, "inventoryList", inventory);
         SaveArrayListToSD(this, "currentInventoryList", inventory);
