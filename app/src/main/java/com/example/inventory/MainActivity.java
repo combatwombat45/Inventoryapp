@@ -192,11 +192,14 @@ public class MainActivity extends AppCompatActivity {
         TextView idView = (TextView) row.getChildAt(0);
         ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
         ArrayList<InventoryObject> currentInventory = (ArrayList) ReadArrayListFromSD(this, "currentInventoryList");
+        int currentInventoryIndex = 0;
 
         for (int i=0;i<inventory.size();i++) {
             InventoryObject inventoryObject = (InventoryObject) inventory.get(i);
             if (inventoryObject.getID().equals(idView.getText().toString())) {
-                inventoryObject.decrementCount();
+                if (inventoryObject.getCount() > 0) {
+                    inventoryObject.decrementCount();
+                }
                 inventory.set(i, inventoryObject);
             }
         }
@@ -204,7 +207,10 @@ public class MainActivity extends AppCompatActivity {
         for (int i=0;i<currentInventory.size();i++) {
             InventoryObject inventoryObject = (InventoryObject) currentInventory.get(i);
             if (inventoryObject.getID().equals(idView.getText().toString())) {
-                inventoryObject.decrementCount();
+                currentInventoryIndex = i;
+                if (inventoryObject.getCount() > 0) {
+                    inventoryObject.decrementCount();
+                }
                 currentInventory.set(i, inventoryObject);
             }
         }
@@ -214,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
         InventoryAdapter inventoryAdapter = new InventoryAdapter(currentInventory, this);
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(inventoryAdapter);
+        listView.setSelection(currentInventoryIndex);
     }
 
     public void addFromCount(View view) {
@@ -222,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
         TextView idView = (TextView) row.getChildAt(0);
         ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
         ArrayList<InventoryObject> currentInventory = (ArrayList) ReadArrayListFromSD(this, "currentInventoryList");
+        int currentInventoryIndex = 0;
 
         for (int i=0;i<inventory.size();i++) {
             InventoryObject inventoryObject = (InventoryObject) inventory.get(i);
@@ -234,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i=0;i<currentInventory.size();i++) {
             InventoryObject inventoryObject = (InventoryObject) currentInventory.get(i);
             if (inventoryObject.getID().equals(idView.getText().toString())) {
+                currentInventoryIndex = i;
                 inventoryObject.incrementCount();
                 currentInventory.set(i, inventoryObject);
             }
@@ -244,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
         InventoryAdapter inventoryAdapter = new InventoryAdapter(currentInventory, this);
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(inventoryAdapter);
+        listView.setSelection(currentInventoryIndex);
     }
 
     public void editItem(View view){
