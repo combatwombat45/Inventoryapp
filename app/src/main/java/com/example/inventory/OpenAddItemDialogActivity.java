@@ -38,10 +38,13 @@ public class OpenAddItemDialogActivity extends AppCompatActivity {
                 String count = countText.getText().toString();
                 Spinner unitDropdown = findViewById(R.id.unit_spinner);
                 String unit = unitDropdown.getSelectedItem().toString();
+                EditText minimumCountText = findViewById(R.id.minimum_count);
+                String minimumCount = minimumCountText.getText().toString();
                 Bundle extras = new Bundle();
                 extras.putString("name",material);
                 extras.putString("count",count);
                 extras.putString("unit",unit);
+                extras.putString("minimumCount", minimumCount);
 
                 if (count.isEmpty() || material.isEmpty()){
 //                    AlertDialog.Builder builder1 = new AlertDialog.Builder(this);

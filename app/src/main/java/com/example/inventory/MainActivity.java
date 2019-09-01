@@ -45,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
         handleIntent(getIntent());
 
 //        Code to manually reset current inventory
-//        ArrayList<InventoryObject> inventory = new ArrayList<InventoryObject>();
-//        SaveArrayListToSD(this, "currentInventoryList", inventory);
-//        SaveArrayListToSD(this, "inventoryList", inventory);
+        ArrayList<InventoryObject> inventory = new ArrayList<InventoryObject>();
+        SaveArrayListToSD(this, "currentInventoryList", inventory);
+        SaveArrayListToSD(this, "inventoryList", inventory);
 
         ListView listView = (ListView) findViewById(R.id.listView);
-        ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
+//        ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
         ArrayList<InventoryObject> currentInventory = (ArrayList) ReadArrayListFromSD(this, "currentInventoryList");
         InventoryAdapter inventoryAdapter = new InventoryAdapter(currentInventory, this);
         listView.setAdapter(inventoryAdapter);
@@ -63,6 +63,22 @@ public class MainActivity extends AppCompatActivity {
         } else {
             titleView.setVisibility(View.VISIBLE);
             backView.setVisibility(View.GONE);
+        }
+
+        CheckForEmptyInventory(this);
+    }
+
+
+    public void CheckForEmptyInventory(Context mContext) {
+        ListView listView = (ListView) findViewById(R.id.listView);
+        ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
+        TextView emptyInventoryView = (TextView) findViewById(R.id.emptyInventory);
+        if (inventory.size() == 0) {
+            listView.setVisibility(View.GONE);
+            emptyInventoryView.setVisibility(View.VISIBLE);
+        } else {
+            listView.setVisibility(View.VISIBLE);
+            emptyInventoryView.setVisibility(View.GONE);
         }
     }
 
@@ -104,9 +120,11 @@ public class MainActivity extends AppCompatActivity {
                 String countText = data.getStringExtra("count");
                 Integer count = Integer.parseInt(countText);
                 String unit = data.getStringExtra("unit");
+                String minimumCountText = data.getStringExtra("minimumCount");
+                Integer minimumCount = Integer.parseInt(minimumCountText);
                 ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
                 ArrayList<InventoryObject> currentInventory = (ArrayList) ReadArrayListFromSD(this, "currentInventoryList");
-                InventoryObject item = new InventoryObject(name, count, unit);
+                InventoryObject item = new InventoryObject(name, count, unit, minimumCount);
                 inventory.add(item);
                 currentInventory.add(item);
                 SaveArrayListToSD(this, "inventoryList", inventory);
@@ -114,6 +132,9 @@ public class MainActivity extends AppCompatActivity {
                 InventoryAdapter inventoryAdapter = new InventoryAdapter(currentInventory, this);
                 ListView listView = (ListView) findViewById(R.id.listView);
                 listView.setAdapter(inventoryAdapter);
+                TextView emptyInventoryView = (TextView) findViewById(R.id.emptyInventory);
+                listView.setVisibility(View.VISIBLE);
+                emptyInventoryView.setVisibility(View.GONE);
             } else { }
         } else if (requestCode == 2){
             if (resultCode == RESULT_OK) {
@@ -144,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
                     InventoryAdapter inventoryAdapter = new InventoryAdapter(currentInventory, this);
                     ListView listView = (ListView) findViewById(R.id.listView);
                     listView.setAdapter(inventoryAdapter);
+                    CheckForEmptyInventory(this);
                 } else if (action.equals(ACTION_UPDATE)) {
                     String countText = data.getStringExtra("count");
                     Integer count = Integer.parseInt(countText);

@@ -33,11 +33,25 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="0" />
 
+    <EditText
+        android:id="@+id/minimum_count"
+        android:layout_width="160dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="25dp"
+        android:ems="10"
+        android:hint="@string/minimum_count"
+        android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/count"
+        tools:text="0" />
+
     <Button
         android:id="@+id/update"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="45dp"
         android:background="@color/colorPrimary"
@@ -52,9 +66,9 @@
         android:id="@+id/cancel"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginLeft="44dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="100dp"
         android:onClick="CancelEditItem"
         android:text="@string/cancel_button"
         android:textSize="18sp"
@@ -63,12 +77,12 @@
 
     <Spinner
         android:id="@+id/unit_spinner"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
-        android:layout_marginLeft="92dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintStart_toEndOf="@+id/material"
+        android:layout_width="45dp"
+        android:layout_height="14dp"
+        android:layout_marginTop="100dp"
+        android:dropDownVerticalOffset="30dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintStart_toEndOf="@+id/count"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button

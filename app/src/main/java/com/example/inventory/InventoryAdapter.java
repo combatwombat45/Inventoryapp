@@ -1,6 +1,7 @@
 package com.example.inventory;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,27 +59,12 @@ public class InventoryAdapter extends BaseAdapter implements ListAdapter {
         listItemCount.setText(Integer.toString(list.get(position).getCount()));
         listItemUnit.setText(unit);
 
+        Integer listItemMinCount = list.get(position).getMinimumCount();
 
-        //Handle buttons and add onClickListeners
-//        Button deleteBtn = (Button)view.findViewById(R.id.delete_btn);
-//        Button addBtn = (Button)view.findViewById(R.id.add_btn);
-
-//        deleteBtn.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                //do something
-//                list.remove(position); //or some other task
-//                notifyDataSetChanged();
-//            }
-//        });
-//        addBtn.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                //do something
-//                notifyDataSetChanged();
-//            }
-//        });
-
+        if (listItemMinCount > list.get(position).getCount()) {
+            System.out.println("This item is nearly all out. Go get some more");
+            listItemCount.setTextColor(Color.YELLOW);
+        }
         return view;
     }
 }
