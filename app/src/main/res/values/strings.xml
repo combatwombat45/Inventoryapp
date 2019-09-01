@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Inventory</string>
+    <string name="app_name">HardWhere</string>
     <string name="inventory">INVENTORY</string>
     <string name="add_button">Add</string>
     <string name="material_name">Material Name</string>
@@ -18,5 +18,8 @@
         <item>ft</item>
         <item>inches</item>
         <item>meters</item>
+        <item>ounces</item>
+        <item>pounds</item>
+        <item>tons</item>
     </string-array>
 </resources>
