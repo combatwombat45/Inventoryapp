@@ -77,11 +77,12 @@
 
     <Spinner
         android:id="@+id/unit_spinner"
-        android:layout_width="45dp"
-        android:layout_height="14dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:dropDownVerticalOffset="30dp"
         android:spinnerMode="dropdown"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toEndOf="@+id/count"
         app:layout_constraintTop_toTopOf="parent" />
 

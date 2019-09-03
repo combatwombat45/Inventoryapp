@@ -21,10 +21,11 @@ public class OpenAddItemDialogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_open_add_item_dialog);
         final Context context = getApplicationContext();
 
-
         Spinner unitDropdown = findViewById(R.id.unit_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.unit_types, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.unit_types, android.R.layout.simple_spinner_item
+        );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitDropdown.setAdapter(adapter);
 
@@ -47,11 +48,6 @@ public class OpenAddItemDialogActivity extends AppCompatActivity {
                 extras.putString("minimumCount", minimumCount);
 
                 if (count.isEmpty() || material.isEmpty()){
-//                    AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-//                    builder1.setMessage("Fields Material or Count Cannot be Empty");
-//                    builder1.setCancelable(true);
-//                    AlertDialog alert11 = builder1.create();
-//                    alert11.show();
                     Tools.exceptionToast(context,"Material or Count Cannot be Blank");
 
                 } else {

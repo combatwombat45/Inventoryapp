@@ -45,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
         handleIntent(getIntent());
 
 //        Code to manually reset current inventory
-        ArrayList<InventoryObject> inventory = new ArrayList<InventoryObject>();
-        SaveArrayListToSD(this, "currentInventoryList", inventory);
-        SaveArrayListToSD(this, "inventoryList", inventory);
+//        ArrayList<InventoryObject> inventory = new ArrayList<InventoryObject>();
+//        SaveArrayListToSD(this, "currentInventoryList", inventory);
+//        SaveArrayListToSD(this, "inventoryList", inventory);
 
         ListView listView = (ListView) findViewById(R.id.listView);
-//        ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
+        ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
         ArrayList<InventoryObject> currentInventory = (ArrayList) ReadArrayListFromSD(this, "currentInventoryList");
         InventoryAdapter inventoryAdapter = new InventoryAdapter(currentInventory, this);
         listView.setAdapter(inventoryAdapter);
@@ -158,8 +158,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-
-//                  inventory.remove(index.intValue());
                     SaveArrayListToSD(this, "inventoryList", inventory);
                     SaveArrayListToSD(this, "currentInventoryList", currentInventory);
                     InventoryAdapter inventoryAdapter = new InventoryAdapter(currentInventory, this);
@@ -172,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                     String unit = data.getStringExtra("unit");
                     String material = data.getStringExtra("name");
                     String id = data.getStringExtra("id");
+                    Integer minimumCount = Integer.parseInt(data.getStringExtra("minimumCount"));
                     ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
                     ArrayList<InventoryObject> currentInventory = (ArrayList) ReadArrayListFromSD(this, "currentInventoryList");
 
@@ -181,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
                         if (inventoryObject.getID().equals(id)) {
                             inventoryObject.setName(material);
                             inventoryObject.setCount(count);
+                            inventoryObject.setMinimumCount(minimumCount);
                             inventoryObject.setUnit(unit);
                             inventory.set(i,inventoryObject);
                         }
@@ -282,21 +282,24 @@ public class MainActivity extends AppCompatActivity {
         TextView nameView = (TextView) view;
         com.google.android.flexbox.FlexboxLayout row = (com.google.android.flexbox.FlexboxLayout) nameView.getParent();
         TextView idView = (TextView) row.getChildAt(0);
-        TextView countView = (TextView) row.getChildAt(3);
-        TextView unitView = (TextView) row.getChildAt(4);
-        ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
-        ArrayList<InventoryObject> currentInventory = (ArrayList) ReadArrayListFromSD(this, "currentInventoryList");
-
-        String name = nameView.getText().toString();
-        String unit = unitView.getText().toString();
-        String count = countView.getText().toString();
         String id = idView.getText().toString();
+        ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
+        InventoryObject inventoryObject = new InventoryObject("", 0, "", 0);
+
+        for (int i=0;i<inventory.size();i++) {
+            InventoryObject temp = (InventoryObject) inventory.get(i);
+            if (temp.getID().equals(id)) {
+                inventoryObject = temp;
+            }
+        }
+        ArrayList<InventoryObject> currentInventory = (ArrayList) ReadArrayListFromSD(this, "currentInventoryList");
         Intent intent = new Intent(this, EditItemActivity.class);
 
-        intent.putExtra("name", name);
-        intent.putExtra("unit", unit);
-        intent.putExtra("count", count);
-        intent.putExtra("id", id);
+        intent.putExtra("name", inventoryObject.getName());
+        intent.putExtra("unit", inventoryObject.getUnit());
+        intent.putExtra("count", Integer.toString(inventoryObject.getCount()));
+        intent.putExtra("id", inventoryObject.getID());
+        intent.putExtra("minimumCount", Integer.toString(inventoryObject.getMinimumCount()));
 
         startActivityForResult(intent,2);
     }

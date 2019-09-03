@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 public class EditItemActivity extends AppCompatActivity {
 
     @Override
@@ -22,10 +24,12 @@ public class EditItemActivity extends AppCompatActivity {
         String count = getIntent().getStringExtra("count");
         String unit = getIntent().getStringExtra("unit");
         final String id = getIntent().getStringExtra("id");
+        String minimumCount = getIntent().getStringExtra("minimumCount");
 
         TextView nameView = (TextView) findViewById(R.id.material);
         TextView countView = (TextView) findViewById(R.id.count);
         Spinner unitSpinner = (Spinner) findViewById(R.id.unit_spinner);
+        TextView minimumCountView = (TextView) findViewById(R.id.minimum_count);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.unit_types, android.R.layout.simple_spinner_item);
@@ -33,6 +37,7 @@ public class EditItemActivity extends AppCompatActivity {
         unitSpinner.setAdapter(adapter);
 
         countView.setText(count);
+        minimumCountView.setText(minimumCount);
         nameView.setText(name);
 
         int spinnerIndex = 0;
@@ -65,12 +70,15 @@ public class EditItemActivity extends AppCompatActivity {
                 String count = countText.getText().toString();
                 Spinner unitDropdown = findViewById(R.id.unit_spinner);
                 String unit = unitDropdown.getSelectedItem().toString();
+                EditText minimumCountText = findViewById(R.id.minimum_count);
+                String minimumCount = minimumCountText.getText().toString();
 
                 Intent intent = new Intent();
                 Bundle extras = new Bundle();
                 extras.putString("action","update");
                 extras.putString("name",material);
                 extras.putString("count",count);
+                extras.putString("minimumCount", minimumCount);
                 extras.putString("unit",unit);
                 extras.putString("id", id);
                 intent.putExtras(extras);
