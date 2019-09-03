@@ -10,7 +10,7 @@
     <string name="search_title">Search</string>
     <string name="settings">Settings</string>
     <string name="minimum_count">Minimum Count</string>
-    <string name="empty_inventory">Welcome to HardWhere! It seems your inventory is empty. Add a material today!</string>
+    <string name="empty_inventory">Welcome to HardWhere! \n It seems your inventory is empty. \n Add a material today!</string>
 
     <string-array name="unit_types">\
         <!-- the first item is the default choice; leave item below as first item -->
