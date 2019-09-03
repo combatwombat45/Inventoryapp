@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +29,13 @@ public class OpenAddItemDialogActivity extends AppCompatActivity {
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitDropdown.setAdapter(adapter);
+        unitDropdown.setRotationY(180);
+        unitDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapter, View view, int pos, long id) {
+                view.setRotationY(180);
+            }
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
 
         Button addButton = (Button) findViewById(R.id.add);
         addButton.setOnClickListener(new View.OnClickListener(){

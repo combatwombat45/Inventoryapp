@@ -191,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
                         if (inventoryObject.getID().equals(id)) {
                             inventoryObject.setName(material);
                             inventoryObject.setCount(count);
+                            inventoryObject.setMinimumCount(minimumCount);
                             inventoryObject.setUnit(unit);
                             currentInventory.set(i,inventoryObject);
                         }

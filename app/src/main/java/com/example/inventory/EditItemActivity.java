@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +36,7 @@ public class EditItemActivity extends AppCompatActivity {
                 R.array.unit_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unitSpinner.setAdapter(adapter);
+        unitSpinner.setRotationY(180);
 
         countView.setText(count);
         minimumCountView.setText(minimumCount);
@@ -47,6 +49,12 @@ public class EditItemActivity extends AppCompatActivity {
             }
         }
         unitSpinner.setSelection(spinnerIndex);
+        unitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapter, View view, int pos, long id) {
+                view.setRotationY(180);
+            }
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
 
         Button deleteButton = (Button) findViewById(R.id.delete_button);
         deleteButton.setOnClickListener(new View.OnClickListener(){
