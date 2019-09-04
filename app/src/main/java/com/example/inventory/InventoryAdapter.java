@@ -57,16 +57,20 @@ public class InventoryAdapter extends BaseAdapter implements ListAdapter {
         listItemName.setText(list.get(position).getName());
         listItemID.setText(list.get(position).getID());
         listItemCount.setText(Integer.toString(list.get(position).getCount()));
-        listItemUnit.setText(unit);
-
         Integer listItemMinCount = list.get(position).getMinimumCount();
-        System.out.println("BLAH");
-        System.out.println(listItemMinCount);
+        listItemUnit.setText(unit);
+        System.out.println("blah");
         System.out.println(list.get(position).getCount());
+        System.out.println(listItemMinCount);
+
         if (listItemMinCount > list.get(position).getCount()) {
             System.out.println("This item is nearly all out. Go get some more");
             listItemCount.setTextColor(Color.RED);
             listItemName.setTextColor(Color.RED);
+        }
+
+        if ( position % 2 == 1) {
+            view.setBackgroundColor(Color.LTGRAY);
         }
         return view;
     }
