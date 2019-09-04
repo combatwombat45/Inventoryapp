@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:dropDownVerticalOffset="30dp"
-        android:gravity="start|center_vertical"
+        android:dropDownWidth="165dp"
         android:rotationY="180"
         android:spinnerMode="dropdown"
         app:layout_constraintStart_toEndOf="@+id/count"
