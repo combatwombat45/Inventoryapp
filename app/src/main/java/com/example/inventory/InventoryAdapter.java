@@ -64,6 +64,7 @@ public class InventoryAdapter extends BaseAdapter implements ListAdapter {
             System.out.println("This item is nearly all out. Go get some more");
             listItemCount.setTextColor(Color.parseColor("#FFC30000"));
             listItemName.setTextColor(Color.parseColor("#FFC30000"));
+            listItemUnit.setTextColor(Color.parseColor("#FFC30000"));
         }
 
         if ( position % 2 == 1) {
