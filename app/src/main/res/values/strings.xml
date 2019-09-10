@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">HardWhere</string>
+    <string name="main_button">Main</string>
+    <string name="low_button">Low</string>
     <string name="inventory">INVENTORY</string>
     <string name="add_button">Add</string>
     <string name="material_name">Material Name</string>
