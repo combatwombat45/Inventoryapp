@@ -2,32 +2,30 @@ package com.example.inventory;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
-import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.google.android.flexbox.FlexboxLayout;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     static String ACTION_DELETE = "delete";
@@ -360,6 +358,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clearSearch() {
+        Button lowInventoryButton = findViewById(R.id.lowButton);
+        Button mainInventoryButton = findViewById(R.id.mainButton);
+        lowInventoryButton.setBackgroundColor(getResources().getColor(R.color.background_not_chosen));
+        lowInventoryButton.setTextColor(Color.BLACK);
+        mainInventoryButton.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        mainInventoryButton.setTextColor(Color.WHITE);
+
         ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
         SaveArrayListToSD(this, "inventoryList", inventory);
         SaveArrayListToSD(this, "currentInventoryList", inventory);
@@ -378,5 +383,36 @@ public class MainActivity extends AppCompatActivity {
             backView.setVisibility(View.GONE);
         }
     }
+
+    public void homeView(View view) {
+        clearSearch();
+    }
+
+    public void lowInventoryView(View view) {
+        System.out.println("LowInventoryView");
+        ArrayList<InventoryObject> lowInventory = new ArrayList<InventoryObject>();
+        ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
+
+        Button lowInventoryButton = findViewById(R.id.lowButton);
+        Button mainInventoryButton = findViewById(R.id.mainButton);
+        lowInventoryButton.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        lowInventoryButton.setTextColor(Color.WHITE);
+        mainInventoryButton.setBackgroundColor(getResources().getColor(R.color.background_not_chosen));
+        mainInventoryButton.setTextColor(Color.BLACK);
+
+        for (int i=0;i<inventory.size();i++) {
+            InventoryObject inventoryObject = inventory.get(i);
+            if (inventoryObject.getCount() < inventoryObject.getMinimumCount()) {
+                System.out.println("add item");
+                lowInventory.add(inventoryObject);
+            }
+        }
+
+        SaveArrayListToSD(this, "currentInventoryList", lowInventory);
+        InventoryAdapter inventoryAdapter = new InventoryAdapter(lowInventory, this);
+        ListView listView = (ListView) findViewById(R.id.listView);
+        listView.setAdapter(inventoryAdapter);
+    }
+
 }
 
