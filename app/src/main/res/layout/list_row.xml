@@ -47,7 +47,7 @@
         tools:visibility="visible" />
 
     <TextView
-        android:gravity="center"
+        android:gravity="center|right"
         android:id="@+id/list_item_count"
         android:minHeight="75dp"
         android:layout_width="100dp"
@@ -60,7 +60,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:gravity="center"
+        android:gravity="center|left"
         android:minHeight="75dp"
         android:id="@+id/list_item_unit"
         android:layout_width="100dp"

@@ -119,7 +119,12 @@ public class MainActivity extends AppCompatActivity {
                 Integer count = Integer.parseInt(countText);
                 String unit = data.getStringExtra("unit");
                 String minimumCountText = data.getStringExtra("minimumCount");
-                Integer minimumCount = Integer.parseInt(minimumCountText);
+                Integer minimumCount = 0;
+                System.out.println("*****");
+                System.out.println(minimumCountText);
+                if (!minimumCountText.isEmpty()) {
+                    minimumCount = Integer.parseInt(minimumCountText);
+                }
                 ArrayList<InventoryObject> inventory = (ArrayList) ReadArrayListFromSD(this, "inventoryList");
                 ArrayList<InventoryObject> currentInventory = (ArrayList) ReadArrayListFromSD(this, "currentInventoryList");
                 InventoryObject item = new InventoryObject(name, count, unit, minimumCount);

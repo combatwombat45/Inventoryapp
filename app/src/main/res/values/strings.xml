@@ -11,6 +11,7 @@
     <string name="delete_button">Delete</string>
     <string name="search_title">Search</string>
     <string name="settings">Settings</string>
+    <string name="tbd">More to come!</string>
     <string name="minimum_count">Minimum Count</string>
     <string name="empty_inventory">Welcome to HardWhere! \n It seems your inventory is empty. \n Add a material today!</string>
 
